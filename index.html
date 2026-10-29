@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en-US"><head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/consulting-landing-page/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  
+  <!-- Manual tags -->
+  <meta name="description" content="Meridian Advisory Group is an independent strategy and management consultancy. We help leadership teams sharpen strategy, streamline operations and lead change with confidence.">
+  <meta name="keywords" content="Consulting, Management Consulting, Business Strategy, Operational Excellence, Digital Transformation, Financial Advisory">
+  <meta name="author" content="Meridian Advisory Group">
+  <meta property="og:title" content="Meridian Advisory Group | Strategy &amp; Management Consulting">
+  <meta property="og:description" content="Meridian Advisory Group is an independent strategy and management consultancy. We help leadership teams sharpen strategy, streamline operations and lead change with confidence.">
+  <meta property="og:url" content="https://alinchenescu.github.io/consulting-landing-page/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Meridian Advisory Group">
+  <meta name="twitter:description" content="Meridian Advisory Group is an independent strategy and management consultancy. We help leadership teams sharpen strategy, streamline operations and lead change with confidence.">
+  <meta http-equiv="content-language" content="en-US">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
+  <link rel="nofollow" href="robots.txt">
+  <style>
+    .loader {
+      border: 4px solid transparent; /* Transparent border to create space for the loader */
+      border-top: 4px solid #D4A72C; /* Top border (appears as the loader) */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: 50%; /* Center the loader vertically */
+      left: 50%; /* Center the loader horizontally */
+      transform: translate(-50%, -50%); /* Center the loader precisely */
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    body {
+      background-color: #0B2545; /* Set the background color here */
+      margin: 0; /* Reset default margin */
+      height: 100vh; /* Ensure full viewport height */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+  </style>
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Meridian Advisory">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <title>Meridian Advisory Group | Strategy &amp; Management Consulting</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "3129913843";
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer=""></script>
+
+</head>
+<body>
+  <h1 style="color: rgba(255, 0, 0, 0)">Meridian Advisory Group</h1>
+  <div class="loader"></div>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+</body></html>

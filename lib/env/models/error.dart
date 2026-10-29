@@ -21,10 +21,9 @@ class ErrorModel extends DModel {
     return const ErrorModel(
       id: 404,
       title: 'Page Not Found',
-      subtitle: "The page you are looking for "
-          "might be under construction "
-          "or does not exist. "
-          "Let's get you back on track!",
+      subtitle: "The page you are looking for has moved "
+          "or no longer exists. "
+          "Let's get you back on track.",
     );
   }
 }

@@ -1,31 +1,31 @@
 package_rename_config:
   android:
-    app_name: Flutter Landing Page
-    package_name: app.web.nialixus-landing-page
-    override_old_package: app.web.nialixus-landing-page
+    app_name: Meridian Advisory
+    package_name: com.example.meridian_advisory
+    override_old_package: com.example.meridian_advisory
     lang: kotlin
 
   ios:
-    app_name: Flutter Landing Page
-    bundle_name: flutterLandingPage
-    package_name: app.web.nialixus-landing-page
+    app_name: Meridian Advisory
+    bundle_name: meridianAdvisory
+    package_name: com.example.meridian_advisory
 
   web:
-    app_name: Flutter Landing Page
-    description: A responsive landing page template for flutter. Perfect for showcasing your product or service with a clean lead-in, FAQs, pricing, and key features.
+    app_name: Meridian Advisory
+    description: Meridian Advisory Group is an independent strategy and management consultancy. We help leadership teams sharpen strategy, streamline operations and lead change with confidence.
 
   linux:
-    app_name: Flutter Landing Page
-    package_name: app.web.nialixus-landing-page
-    exe_name: flutter-landing-page
+    app_name: Meridian Advisory
+    package_name: com.example.meridian_advisory
+    exe_name: meridian-advisory
 
   windows:
-    app_name: Flutter Landing Page
-    organization: Nialixus
-    copyright_notice: Copyright ©️ 2023 Louis Wiwawan. All rights reserved.
-    exe_name: flutter-landing-page
+    app_name: Meridian Advisory
+    organization: Meridian Advisory Group
+    copyright_notice: Copyright ©️ 2026 Meridian Advisory Group. All rights reserved.
+    exe_name: meridian-advisory
 
   macos:
-    app_name: Flutter Landing Page
-    package_name: app.web.nialixus-landing-page
-    copyright_notice: Copyright ©️ 2023 Louis Wiwawan. All rights reserved.
+    app_name: Meridian Advisory
+    package_name: com.example.meridian_advisory
+    copyright_notice: Copyright ©️ 2026 Meridian Advisory Group. All rights reserved.

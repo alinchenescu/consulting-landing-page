@@ -1,19 +1,8 @@
 name: flutter_landing_page
-description: A responsive landing page template for flutter. Perfect for
-  showcasing your product or service with a clean lead-in, FAQs, pricing, and
-  key features.
+description: Responsive landing page for Meridian Advisory Group, a strategy
+  and management consulting firm. Home, About Us, Services and Contact sections.
 publish_to: 'none'
 version: 1.4.1
-homepage: https://nialixus-landing-page.web.app
-repository: https://github.com/Nialixus/flutter_landing_page.git
-issue_tracker: https://github.com/Nialixus/flutter_landing_page/issues
-funding:
-  - https://www.buymeacoffee.com/nialixus
-topics:
-  - template
-  - landing page
-  - one page
-
 environment:
   sdk: '>=3.1.5 <4.0.0'
 
@@ -43,5 +32,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/image/

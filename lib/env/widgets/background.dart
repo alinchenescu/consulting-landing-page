@@ -5,10 +5,7 @@ class Background extends StatelessWidget {
     super.key,
     this.opacity = 0.25,
     this.backgroundColor,
-    this.imageColor,
-    this.fit = BoxFit.cover,
-    this.alignment = Alignment.center,
-    this.source = 'assets/image/background.png',
+    this.position = 0.0,
     required this.child,
   }) : builder = null;
 
@@ -18,18 +15,15 @@ class Background extends StatelessWidget {
     this.opacity = 0.25,
     this.child = const SizedBox(),
     this.backgroundColor,
-  })  : imageColor = null,
-        source = '',
-        fit = BoxFit.cover,
-        alignment = Alignment.center,
+  })  : position = 0.0,
         assert(builder != null);
   final Widget child;
   final Widget Function(BuildContext context, Widget child)? builder;
   final double opacity;
-  final Color? backgroundColor, imageColor;
-  final String source;
-  final BoxFit fit;
-  final Alignment alignment;
+  final Color? backgroundColor;
+
+  /// Vertical progress of the pattern, from 0.0 (top) to 1.0 (bottom).
+  final double position;
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +36,13 @@ class Background extends StatelessWidget {
                 opacity: opacity,
                 child: builder != null
                     ? Builder(builder: (context) => builder!(context, child))
-                    : DImage(
-                        alignment: alignment,
-                        source: source,
-                        fit: fit,
-                        colorBlendMode: BlendMode.hardLight,
-                        color: imageColor ?? context.color.primary))),
+                    : CustomPaint(
+                        painter: BackgroundPainter(
+                          position: position,
+                          color: context.color.background,
+                          accent: context.color.secondary,
+                        ),
+                      ))),
         child
       ],
     );
@@ -67,19 +62,74 @@ class Background extends StatelessWidget {
                   double offset = value.offset;
 
                   if (maxScrollExtent > 0) {
-                    position = offset / maxScrollExtent * 2.0;
+                    position = offset / maxScrollExtent;
                   }
                 }
                 return RepaintBoundary(
-                  child: DImage(
-                      alignment: Alignment(0.0, -1.0 + position),
-                      source: 'assets/image/background.png',
-                      fit: BoxFit.fitWidth,
-                      colorBlendMode: BlendMode.hardLight,
-                      color: context.color.primary),
+                  child: CustomPaint(
+                    size: Size.infinite,
+                    painter: BackgroundPainter(
+                      position: position,
+                      color: context.color.background,
+                      accent: context.color.secondary,
+                    ),
+                  ),
                 );
               },
             ),
         child: child);
+  }
+}
+
+/// Paints a subtle blueprint-style grid with orbit rings, replacing the
+/// original raster background image.
+class BackgroundPainter extends CustomPainter {
+  const BackgroundPainter({
+    required this.position,
+    required this.color,
+    required this.accent,
+  });
+
+  final double position;
+  final Color color, accent;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const double cell = 48.0;
+    final double shift = position * size.height * 0.6;
+
+    // [1] Draw the grid, shifted to create the parallax effect
+    final grid = Paint()
+      ..color = color.withOpacity(0.08)
+      ..strokeWidth = 1.0;
+    for (double x = 0.0; x <= size.width; x += cell) {
+      canvas.drawLine(Offset(x, 0.0), Offset(x, size.height), grid);
+    }
+    for (double y = -(shift % cell); y <= size.height; y += cell) {
+      canvas.drawLine(Offset(0.0, y), Offset(size.width, y), grid);
+    }
+
+    // [2] Draw concentric rings on opposite corners
+    final ring = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    final double base = size.shortestSide.limit(320.0, 900.0);
+    final rings = [
+      (Offset(size.width * 0.9, size.height * 0.15 - shift * 0.5), color),
+      (Offset(size.width * 0.05, size.height * 0.85 - shift * 0.25), accent),
+    ];
+    for (final (center, tone) in rings) {
+      for (int i = 1; i <= 4; i++) {
+        ring.color = tone.withOpacity(0.25 / i);
+        canvas.drawCircle(center, base * 0.18 * i, ring);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(BackgroundPainter oldDelegate) {
+    return oldDelegate.position != position ||
+        oldDelegate.color != color ||
+        oldDelegate.accent != accent;
   }
 }

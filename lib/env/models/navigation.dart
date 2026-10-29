@@ -8,33 +8,34 @@ class NavigationModel extends DModel {
     required this.inactiveIcon,
   });
 
-  final String id, name, activeIcon, inactiveIcon;
+  final String id, name;
+  final IconData activeIcon, inactiveIcon;
 
-  static const NavigationModel starter = NavigationModel(
-    id: 'get-started',
+  static const NavigationModel home = NavigationModel(
+    id: 'home',
     name: 'Home',
-    activeIcon: 'assets/image/icon_active_home.svg',
-    inactiveIcon: 'assets/image/icon_inactive_home.svg',
+    activeIcon: Icons.home_rounded,
+    inactiveIcon: Icons.home_outlined,
   );
 
-  static const NavigationModel features = NavigationModel(
-    id: 'features',
-    name: 'Features',
-    activeIcon: 'assets/image/icon_active_features.svg',
-    inactiveIcon: 'assets/image/icon_inactive_features.svg',
+  static const NavigationModel about = NavigationModel(
+    id: 'about-us',
+    name: 'About Us',
+    activeIcon: Icons.groups_rounded,
+    inactiveIcon: Icons.groups_outlined,
   );
 
-  static const NavigationModel pricing = NavigationModel(
-    id: 'pricing',
-    name: 'Pricing',
-    activeIcon: 'assets/image/icon_active_pricing.svg',
-    inactiveIcon: 'assets/image/icon_inactive_pricing.svg',
+  static const NavigationModel services = NavigationModel(
+    id: 'services',
+    name: 'Services',
+    activeIcon: Icons.work_rounded,
+    inactiveIcon: Icons.work_outline_rounded,
   );
 
-  static const NavigationModel faq = NavigationModel(
-    id: 'faq',
-    name: 'FAQ',
-    activeIcon: 'assets/image/icon_active_faq.svg',
-    inactiveIcon: 'assets/image/icon_inactive_faq.svg',
+  static const NavigationModel contact = NavigationModel(
+    id: 'contact',
+    name: 'Contact',
+    activeIcon: Icons.mail_rounded,
+    inactiveIcon: Icons.mail_outline_rounded,
   );
 }

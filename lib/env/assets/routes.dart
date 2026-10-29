@@ -9,11 +9,11 @@ class Routes {
         return DLogWidget(
           'http://localhost${state.uri}',
           child: Seo.head(tags: const [
-            MetaTag(name: 'title', content: 'Flutter Landing Page'),
-            LinkTag(
-              rel: 'canonical',
-              href: 'https://nialixus-landing-page.web.app',
-            )
+            MetaTag(
+              name: 'title',
+              content: '${Constants.company} | ${Constants.tagline}',
+            ),
+            LinkTag(rel: 'canonical', href: Constants.website)
           ], child: const HomePage()),
         );
       });
@@ -23,18 +23,14 @@ class Routes {
       builder: (context, state) {
         if (kIsWeb) {
           MetaSEO()
-            ..ogTitle(ogTitle: 'Flutter Landing Page : Page Not Found')
-            ..description(description: 'An example of error page in flutter.')
+            ..ogTitle(ogTitle: '${Constants.company} : Page Not Found')
+            ..description(description: 'The requested page could not be found.')
             ..keywords(
-                keywords: 'Flutter, Error Page, '
-                    'Template, 404, Page Not Found')
-            ..author(author: 'Louis Wiwawan')
+                keywords: 'Consulting, Strategy, Advisory, '
+                    'Management Consulting, 404')
+            ..author(author: Constants.company)
             ..ogDescription(
-                ogDescription: 'An example of error page in flutter.')
-            ..ogImage(
-                ogImage: 'https://user-images.githubusercontent.com/'
-                    '45191605/283660084-c7bd8b9d-34b1-49e7-88e3-7c52a2003532.png')
-            ..nameContent(name: 'twitter:site', content: '@wawan_ariwijaya');
+                ogDescription: 'The requested page could not be found.');
         }
         return DLogWidget(
           'http://localhost${state.uri}',
@@ -42,11 +38,11 @@ class Routes {
             tags: [
               const MetaTag(
                 name: 'title',
-                content: 'Flutter Landing Page : Page Not Found',
+                content: '${Constants.company} : Page Not Found',
               ),
               LinkTag(
                 rel: 'canonical',
-                href: 'https://nialixus-landing-page.web.app${state.uri}',
+                href: '${Constants.website}${state.uri}',
               )
             ],
             child: ErrorPage(model: ErrorModel.error404),

@@ -85,6 +85,7 @@ class NavigationHeader extends AppBar {
                                   color: Colors.transparent,
                                   style: context.text.bodyMedium?.copyWith(
                                     color: context.color.background,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                   onTap: () => Env.controller.onTap(
                                     context,
@@ -100,21 +101,25 @@ class NavigationHeader extends AppBar {
               Theme(
                 data: context.theme,
                 child: Semantics(
-                  label: 'Go to dashboard',
+                  label: 'Book a consultation',
                   link: true,
                   child: Seo.link(
-                    anchor: 'Get Started',
-                    href: '/dashboard',
+                    anchor: 'Book a Call',
+                    href: '/?section=${Env.navigations.last.id}',
                     child: DButton.text(
-                      text: 'Get Started',
+                      text: 'Book a Call',
+                      color: context.color.secondary,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
+                          horizontal: 18.0, vertical: 10.0),
                       borderRadius: BorderRadius.circular(20.0),
                       style: context.text.bodyMedium?.copyWith(
                         color: context.color.primary,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
-                      onTap: () => context.go('/dashboard'),
+                      onTap: () => Env.controller.onTap(
+                        context,
+                        id: Env.navigations.last.id,
+                      ),
                     ),
                   ),
                 ),
@@ -127,16 +132,38 @@ class NavigationHeader extends AppBar {
   static Widget logo() {
     return Builder(builder: (context) {
       return Seo.text(
-        text: '🎉  FLUTTER',
+        text: Constants.company,
         style: TextTagStyle.h1,
-        child: Text(
-          // Your logo
-          '🎉  FLUTTER', semanticsLabel: 'Flutter Landing Page Logo',
-          style: context.text.titleLarge?.copyWith(
-            color: context.color.background,
-            fontWeight: FontWeight.w900,
-            fontSize: 20.0,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Logo mark
+            Container(
+              padding: const EdgeInsets.all(6.0),
+              decoration: BoxDecoration(
+                color: context.color.secondary,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Icon(
+                Icons.insights_rounded,
+                size: 18.0,
+                color: context.color.primary,
+              ),
+            ),
+            const SizedBox(width: 10.0),
+
+            // Logo wordmark
+            Text(
+              Constants.brand,
+              semanticsLabel: '${Constants.company} Logo',
+              style: context.text.titleLarge?.copyWith(
+                color: context.color.background,
+                fontWeight: FontWeight.w900,
+                fontSize: 20.0,
+                letterSpacing: 2.0,
+              ),
+            ),
+          ],
         ),
       );
     });

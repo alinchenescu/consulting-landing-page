@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
       valueListenable: Env.controller,
       builder: (_, value, child) {
         return TweenAnimationBuilder(
-          tween: Tween(end: value == Env.navigations.last.id ? 0.0 : 1.0),
+          tween: Tween(end: value == Env.navigations.first.id ? 1.0 : 0.0),
           duration: Constants.duration,
           builder: (_, value, child) {
             return Transform.translate(
@@ -53,39 +53,73 @@ class HomePage extends StatelessWidget {
         builder: (context) {
           return Row(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              DButton(
-                onTap: () => launchUrl(Uri.parse('https://github.com'
-                    '/Nialixus'
-                    '/flutter_landing_page')),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  height: kToolbarHeight,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'View the source code in',
-                        style: context.text.bodyMedium?.copyWith(
-                          color: Colors.black,
-                        ),
+              // Hide the consultation shortcut once the contact form is visible
+              ValueListenableBuilder(
+                valueListenable: Env.controller,
+                builder: (_, value, child) {
+                  final isHidden = value == Env.navigations.last.id;
+                  return IgnorePointer(
+                    ignoring: isHidden,
+                    child: AnimatedOpacity(
+                      opacity: isHidden ? 0.0 : 1.0,
+                      duration: Constants.duration,
+                      child: child,
+                    ),
+                  );
+                },
+                child: Semantics(
+                  label: 'Book a free 30-minute consultation',
+                  link: true,
+                  child: DButton(
+                    onTap: () => Env.controller.onTap(
+                      context,
+                      id: Env.navigations.last.id,
+                    ),
+                    color: Colors.transparent,
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.color.secondary,
+                        borderRadius: BorderRadius.circular(kToolbarHeight),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 16.0,
+                            offset: const Offset(0.0, 6.0),
+                          ),
+                        ],
                       ),
-                      const DImage(
-                        source: 'https://assets.stickpng.com'
-                            '/images'
-                            '/629b7adc7c5cd817694c3231.png',
-                        size: Size(80.0, 30.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      height: kToolbarHeight * 0.85,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.calendar_month_rounded,
+                            size: 18.0,
+                            color: context.color.primary,
+                          ),
+                          const SizedBox(width: 8.0),
+                          Text(
+                            'Free 30-min consultation',
+                            style: context.text.bodyMedium?.copyWith(
+                              color: context.color.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: Constants.spacing * 0.5),
               FloatingActionButton(
                 shape: const CircleBorder(),
+                backgroundColor: context.color.background,
+                foregroundColor: context.color.primary,
                 onPressed: () => Env.controller.onTap(
                   context,
                   id: Env.navigations.first.id,
@@ -113,134 +147,229 @@ class HomePage extends StatelessWidget {
     return ScrollContent(
         id: item.id,
         child: [
-          // HomeStarter Section: Introduction
+          // HomeStarter Section: Hero introduction
           HomeStarter(
             id: item.id,
-            title: "Explore Key Features or Benefits",
+            eyebrow: Constants.tagline,
+            title: 'Clarity for complex decisions. Results that last.',
             subtitle:
-                "We've Solved Problem with Your Solution - Making Your Life Easier. Get Ready for Our Upcoming Launch - Something Amazing Awaits. Stay Informed.",
+                'We partner with leadership teams to sharpen strategy, streamline operations and lead change with confidence — turning ambitious plans into measurable growth.',
+            highlights: const [
+              '120+ organisations advised',
+              'Senior-led engagements',
+              'Results-based pricing available',
+            ],
           ),
 
-          // HomeFeatures Section: Key Features
-          HomeFeatures(
+          // HomeAbout Section: Who we are
+          HomeAbout(
             id: item.id,
-            title: 'Key Features',
+            title: 'Independent advice, built on experience',
             subtitle:
-                'Explore Why Our Product is the Ideal Solution for Your Needs',
+                'Founded in 2011, ${Constants.company} is an independent consultancy of former operators, strategists and industry specialists. We work side by side with our clients, combining rigorous analysis with practical know-how to deliver change that sticks.',
+            stats: const [
+              CardModel(
+                icon: Icons.history_edu_rounded,
+                title: '15+',
+                subtitle: 'Years of advisory experience',
+              ),
+              CardModel(
+                icon: Icons.handshake_rounded,
+                title: '120+',
+                subtitle: 'Clients across 14 industries',
+              ),
+              CardModel(
+                icon: Icons.groups_rounded,
+                title: '45',
+                subtitle: 'Senior consultants & specialists',
+              ),
+              CardModel(
+                icon: Icons.thumb_up_alt_rounded,
+                title: '96%',
+                subtitle: 'Clients who would recommend us',
+              ),
+            ],
             cards: const [
               CardModel(
-                source: 'assets/image/icon_inactive_faq.svg',
-                title: "Discover the World's Wonders",
+                icon: Icons.track_changes_rounded,
+                title: 'Our Mission',
                 subtitle:
-                    'Embark on a mesmerizing journey to breathtaking destinations and uncover the hidden gems that make our planet truly extraordinary. 🚀',
+                    'To help organisations make better decisions, faster — and to build the internal capability they need to keep improving long after we leave.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_features.svg',
-                title: 'Unleash Your Creativity',
+                icon: Icons.person_search_rounded,
+                title: 'Senior Expertise',
                 subtitle:
-                    'Ignite your creative spark and let your imagination run wild with our vast collection of inspiring content, designed to fuel your artistic passions. 🎨',
+                    'Every engagement is led by a partner with 15+ years of hands-on industry experience. No hand-offs to junior teams once the contract is signed.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_pricing.svg',
-                title: 'Elevate Your Taste Buds',
+                icon: Icons.analytics_rounded,
+                title: 'Evidence-Based',
                 subtitle:
-                    'Indulge in a delectable culinary journey that tantalizes your palate, as we guide you through a world of flavors and culinary adventures. 🍰',
+                    'Our recommendations are grounded in data, benchmarks and direct conversations with your customers, employees and partners — not generic frameworks.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_faq.svg',
-                title: 'Master Your Fitness Journey',
+                icon: Icons.verified_user_rounded,
+                title: 'Independent & Objective',
                 subtitle:
-                    'Take control of your health and wellness goals with our expert guidance, tailored workouts, and nutrition tips to help you achieve the best version of yourself. 🏸',
+                    'We have no software to sell and no vendor partnerships to protect. Our only incentive is the success of your business.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_features.svg',
-                title: 'Unlock Adventure Awaits',
+                icon: Icons.diversity_3_rounded,
+                title: 'True Partnership',
                 subtitle:
-                    'Embark on thrilling adventures and create unforgettable moments as we guide you through an exciting world of experiences, from adrenaline-pumping escapades to serene getaways. 🏔',
+                    'We embed with your team, share knowledge openly and co-create solutions, so your people own the outcome and the momentum continues.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_pricing.svg',
-                title: 'Stay Informed and Inspired',
+                icon: Icons.insights_rounded,
+                title: 'Measurable Impact',
                 subtitle:
-                    'Get the latest news, insights, and motivation from our team of experts and thought leaders. Stay informed, stay inspired, and stay ahead of the curve. 🗞',
+                    'Each project starts with clear KPIs agreed upfront. We track progress transparently and report on the value delivered, not just the hours spent.',
               ),
             ],
           ),
 
-          // HomePricing Section: Pricing Plans
-          HomePricing(
+          // HomeServices Section: What we offer
+          HomeServices(
             id: item.id,
-            title: 'Choose the Perfect Plan',
+            title: 'Services tailored to your next stage of growth',
             subtitle:
-                'Explore the benefits and features of each plan to make the right choice for your business.',
-            plans: const [
-              // HomePricingModel items representing pricing plans
-              HomePricingModel(
-                title: 'Basic Plan',
-                price: 0,
+                'From a focused diagnostic to a full transformation programme, choose the level of support that fits your ambition. Every engagement is scoped to your needs.',
+            services: const [
+              HomeServiceModel(
+                icon: Icons.explore_rounded,
+                title: 'Business Strategy',
+                description:
+                    'Define where to play and how to win with a strategy your whole organisation can execute.',
+                price: 8500,
                 benefits:
-                    "Affordable pricing for individuals and small businesses.\nEssential features to get started quickly.\n24/7 customer support for any assistance you need.",
-                type: HomePricingType.forever,
+                    "Market & competitor analysis\nGrowth opportunity assessment\n3-year strategic roadmap\nBoard-ready presentation",
+                type: HomeServiceType.project,
               ),
-              HomePricingModel(
-                title: 'Pro Plan',
-                price: 15,
+              HomeServiceModel(
+                icon: Icons.precision_manufacturing_rounded,
+                title: 'Operational Excellence',
+                description:
+                    'Remove waste, cut costs and improve service levels across your core processes.',
+                price: 12000,
                 benefits:
-                    "Ideal for growing businesses looking for advanced features.\nEnhanced performance and scalability.\nPriority support and access to premium resources.",
-                type: HomePricingType.month,
+                    "End-to-end process diagnostics\nLean & cost-reduction programme\nKPI dashboards & governance\nTeam coaching on the ground",
+                type: HomeServiceType.project,
+                isFeatured: true,
               ),
-              HomePricingModel(
-                title: 'Premium Plan',
-                price: 120,
+              HomeServiceModel(
+                icon: Icons.hub_rounded,
+                title: 'Digital Transformation',
+                description:
+                    'Modernise how you work with technology choices driven by business value.',
+                price: 6500,
                 benefits:
-                    "Experience the ultimate package with exclusive features.\nAdvanced tools and customizations for your business.\nDedicated account manager for personalized assistance.",
-                type: HomePricingType.year,
+                    "Digital maturity assessment\nTechnology & vendor selection\nChange management & training\nProgramme management office",
+                type: HomeServiceType.month,
+              ),
+              HomeServiceModel(
+                icon: Icons.account_balance_rounded,
+                title: 'Financial Advisory',
+                description:
+                    'Strengthen financial performance and prepare for investment, M&A or restructuring.',
+                price: 4000,
+                benefits:
+                    "Financial health check\nForecasting & scenario modelling\nDue diligence support\nInvestor & lender readiness",
+                type: HomeServiceType.engagement,
+              ),
+            ],
+            process: const [
+              CardModel(
+                icon: Icons.search_rounded,
+                title: 'Discover',
+                subtitle:
+                    'We listen, gather data and understand your context and goals.',
+              ),
+              CardModel(
+                icon: Icons.biotech_rounded,
+                title: 'Diagnose',
+                subtitle:
+                    'We identify root causes and quantify the size of the prize.',
+              ),
+              CardModel(
+                icon: Icons.architecture_rounded,
+                title: 'Design',
+                subtitle:
+                    'We co-create a practical plan with clear owners and milestones.',
+              ),
+              CardModel(
+                icon: Icons.rocket_launch_rounded,
+                title: 'Deliver',
+                subtitle:
+                    'We support implementation and measure the results achieved.',
               ),
             ],
           ),
 
-          // HomeFAQ Section: Frequently Asked Questions
-          HomeFAQ(
+          // HomeContact Section: Get in touch
+          HomeContact(
             id: item.id,
-            title: 'Frequently Asked Questions',
-            subtitle: 'Answers to Common Inquiries Regarding Payment Options',
-            cards: const [
-              // CardModel items representing frequently asked questions
+            title: "Let's talk about your goals",
+            subtitle:
+                'Book a free, no-obligation 30-minute consultation. We will listen to your challenges and share an honest view on how we can help.',
+            details: const [
               CardModel(
-                source: 'assets/image/icon_inactive_faq.svg',
-                title: "🚀 Discover the World's Wonders",
-                subtitle:
-                    'Embark on a mesmerizing journey to breathtaking destinations and uncover the hidden gems that make our planet truly extraordinary.',
+                icon: Icons.mail_outline_rounded,
+                title: 'Email',
+                subtitle: Constants.email,
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_features.svg',
-                title: '🎨 Unleash Your Creativity',
-                subtitle:
-                    'Ignite your creative spark and let your imagination run wild with our vast collection of inspiring content, designed to fuel your artistic passions.',
+                icon: Icons.phone_in_talk_rounded,
+                title: 'Phone',
+                subtitle: Constants.phone,
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_pricing.svg',
-                title: '🍰 Elevate Your Taste Buds',
-                subtitle:
-                    'Indulge in a delectable culinary journey that tantalizes your palate, as we guide you through a world of flavors and culinary adventures.',
+                icon: Icons.location_on_outlined,
+                title: 'Office',
+                subtitle: Constants.address,
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_faq.svg',
-                title: '🏸 Master Your Fitness Journey',
+                icon: Icons.schedule_rounded,
+                title: 'Office hours',
+                subtitle: Constants.hours,
+              ),
+            ],
+            faqs: const [
+              CardModel(
+                icon: Icons.chat_bubble_outline_rounded,
+                title: 'What happens during the free consultation?',
                 subtitle:
-                    'Take control of your health and wellness goals with our expert guidance, tailored workouts, and nutrition tips to help you achieve the best version of yourself.',
+                    'A 30-minute video call with a senior consultant. We discuss your objectives and challenges, and you leave with initial recommendations — with no obligation to continue.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_features.svg',
-                title: '🏔 Unlock Adventure Awaits',
+                icon: Icons.timelapse_rounded,
+                title: 'How long does a typical engagement last?',
                 subtitle:
-                    'Embark on thrilling adventures and create unforgettable moments as we guide you through an exciting world of experiences, from adrenaline-pumping escapades to serene getaways.',
+                    'Diagnostics usually take 3–6 weeks. Strategy projects run 6–12 weeks, while transformation programmes are typically delivered over 3–12 months in clearly defined phases.',
               ),
               CardModel(
-                source: 'assets/image/icon_inactive_pricing.svg',
-                title: '🗞 Stay Informed and Inspired',
+                icon: Icons.payments_outlined,
+                title: 'How is pricing structured?',
                 subtitle:
-                    'Get the latest news, insights, and motivation from our team of experts and thought leaders. Stay informed, stay inspired, and stay ahead of the curve.',
+                    'We offer fixed-fee projects, monthly retainers and, where appropriate, results-based fees linked to the KPIs we agree together. You always receive a detailed proposal before work begins.',
+              ),
+              CardModel(
+                icon: Icons.business_rounded,
+                title: 'Do you work with small and mid-sized businesses?',
+                subtitle:
+                    'Yes. Around half of our clients are SMEs and family-owned businesses. We scale our team and approach to match your size and budget.',
+              ),
+              CardModel(
+                icon: Icons.lock_outline_rounded,
+                title: 'How do you handle confidential information?',
+                subtitle:
+                    'All engagements are covered by a mutual NDA. Client data is stored in encrypted systems, access is limited to the project team, and it is deleted at the end of the engagement on request.',
+              ),
+              CardModel(
+                icon: Icons.public_rounded,
+                title: 'Can you work with teams in other countries?',
+                subtitle:
+                    'Absolutely. We regularly support clients across North America and Europe, working remotely or on-site depending on what the project needs.',
               ),
             ],
           ),

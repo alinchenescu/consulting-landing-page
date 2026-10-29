@@ -31,10 +31,10 @@ class Env {
   );
 
   static const List<NavigationModel> navigations = [
-    NavigationModel.starter,
-    NavigationModel.features,
-    NavigationModel.pricing,
-    NavigationModel.faq
+    NavigationModel.home,
+    NavigationModel.about,
+    NavigationModel.services,
+    NavigationModel.contact
   ];
 
   static NavigationController controller = NavigationController(

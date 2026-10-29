@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: https://raw.githubusercontent.com/Nialixus/flutter_landing_page/main/web/sitemap.xml
+Sitemap: https://alinchenescu.github.io/consulting-landing-page/sitemap.xml

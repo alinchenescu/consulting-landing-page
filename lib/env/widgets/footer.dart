@@ -5,6 +5,11 @@ class NavigationFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final linkStyle = context.text.bodyMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+      color: context.color.background.withOpacity(0.8),
+    );
+
     return Theme(
       data: context.theme.copyWith(
         textSelectionTheme: TextSelectionThemeData(
@@ -13,128 +18,107 @@ class NavigationFooter extends StatelessWidget {
       ),
       child: Container(
         color: context.color.onBackground,
-        padding: const EdgeInsets.all(Constants.spacing),
+        padding: const EdgeInsets.all(Constants.spacing * 1.5),
         constraints: BoxConstraints(minWidth: context.width),
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          alignment: WrapAlignment.spaceAround,
+        child: Column(
           children: [
-            // Navigation Logo
-            NavigationHeader.logo(),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.spaceAround,
+              runSpacing: Constants.spacing,
+              children: [
+                // Navigation Logo & tagline
+                MergeSemantics(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      NavigationHeader.logo(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          Constants.tagline,
+                          style: context.text.bodySmall?.copyWith(
+                            color: context.color.background.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
-            // Menu list
+                // Menu list
+                Padding(
+                  padding: const EdgeInsets.all(Constants.spacing),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      for (var navigation in Env.navigations)
+                        Semantics(
+                          label: navigation.name,
+                          link: true,
+                          child: Seo.link(
+                            anchor: navigation.name,
+                            href: '/?section=${navigation.id}',
+                            child: DButton.text(
+                              onTap: () => Env.controller.onTap(
+                                context,
+                                id: navigation.id,
+                              ),
+                              text: navigation.name,
+                              style: linkStyle,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
+                // Email Button
+                Semantics(
+                  label: 'Email ${Constants.company}',
+                  link: true,
+                  child: Seo.link(
+                    anchor: Constants.email,
+                    href: 'mailto:${Constants.email}',
+                    child: DButton.text(
+                      onTap: () => launchUrl(
+                        Uri(scheme: 'mailto', path: Constants.email),
+                      ),
+                      text: Constants.email,
+                      prefix: Icon(
+                        Icons.mail_outline_rounded,
+                        size: 16.0,
+                        color: context.color.secondary,
+                      ),
+                      style:
+                          linkStyle?.copyWith(color: context.color.secondary),
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Divider
             Padding(
-              padding: const EdgeInsets.all(Constants.spacing),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: [
-                  // Term of Service Button
-                  Semantics(
-                    label: 'Unidentified Route',
-                    link: true,
-                    child: Seo.link(
-                      anchor: 'Term of Service',
-                      href: '/term_of_service.txt',
-                      child: DButton.text(
-                        onTap: () => context.go('/term_of_service.txt'),
-                        text: 'Term of Service',
-                        style: context.text.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.color.primary,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-
-                  // Privacy Pplicy Button
-                  Semantics(
-                    label: 'Sponsor Us',
-                    link: true,
-                    child: Seo.link(
-                      anchor: 'Privacy Policy',
-                      href: 'https://www.buymeacoffee.com/nialixus',
-                      child: DButton.text(
-                        onTap: () => launchUrl(
-                            Uri.parse('https://www.buymeacoffee.com/nialixus')),
-                        text: 'Privacy Policy',
-                        style: context.text.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.color.primary,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-
-                  // Contact Us Button
-                  Semantics(
-                    label: 'Author Email',
-                    link: true,
-                    child: Seo.link(
-                      anchor: 'Contact Us',
-                      href: 'mailto://nialixus@gmail.com',
-                      child: DButton.text(
-                        onTap: () =>
-                            launchUrl(Uri.parse('mailto://nialixus@gmail.com')),
-                        text: 'Contact Us',
-                        style: context.text.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.color.primary,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-
-                  // Blog Button
-                  Semantics(
-                    label: 'Github Repository',
-                    link: true,
-                    child: Seo.link(
-                      anchor: 'Blog',
-                      href: 'https://github.com/Nialixus/flutter_landing_page',
-                      child: DButton.text(
-                        onTap: () => launchUrl(
-                          Uri.parse('https://github.com/'
-                              'Nialixus/flutter_landing_page'),
-                        ),
-                        text: 'Blog',
-                        style: context.text.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.color.primary,
-                        ),
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(vertical: Constants.spacing),
+              child: Container(
+                height: 1.0,
+                color: context.color.background.withOpacity(0.08),
               ),
             ),
 
             // Copyright text
             Semantics(
-              label: 'Copyright 2023 Louis Wiwawan',
-              child: Seo.link(
-                anchor: '© 2023 Louis Wiwawan',
-                href: 'https://github.com/Nialixus/'
-                    'flutter_landing_page/blob/main/LICENSE',
-                child: DButton.text(
-                  mainAxisSize: MainAxisSize.min,
-                  text: "© 2023 Louis Wiwawan",
-                  style: context.text.bodyMedium?.copyWith(
-                    color: context.color.background.withOpacity(0.25),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 11.0,
-                  ),
-                  textAlign: TextAlign.center,
-                  color: Colors.transparent,
-                  onTap: () => launchUrl(
-                    Uri.parse(
-                      'https://github.com/Nialixus/'
-                      'flutter_landing_page/blob/main/LICENSE',
-                    ),
-                  ),
+              label: 'Copyright 2026 ${Constants.company}',
+              child: Text(
+                '© 2026 ${Constants.company}. All rights reserved.',
+                textAlign: TextAlign.center,
+                style: context.text.bodyMedium?.copyWith(
+                  color: context.color.background.withOpacity(0.35),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.0,
                 ),
               ),
             ),

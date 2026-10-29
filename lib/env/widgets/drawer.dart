@@ -15,9 +15,7 @@ class NavigationDrawer extends Drawer {
 
   @override
   Widget? get child => Background(
-      opacity: 0.1,
-      fit: BoxFit.none,
-      alignment: Alignment.topLeft,
+      opacity: 0.5,
       child: Column(children: [
         Padding(
           padding: const EdgeInsets.only(
@@ -42,7 +40,7 @@ class NavigationDrawer extends Drawer {
                             text: item.name,
                             mainAxisSize: MainAxisSize.max,
                             color: context.color.background
-                                .withOpacity(isSelected ? 0.25 : 0.0),
+                                .withOpacity(isSelected ? 0.15 : 0.0),
                             padding: const EdgeInsets.all(Constants.spacing),
                             margin: const EdgeInsets.only(
                               left: Constants.spacing * 0.5,
@@ -50,7 +48,7 @@ class NavigationDrawer extends Drawer {
                             ),
                             style: context.text.bodyMedium?.copyWith(
                                 color: context.color.background
-                                    .withOpacity(isSelected ? 1.0 : 0.5),
+                                    .withOpacity(isSelected ? 1.0 : 0.6),
                                 fontWeight: isSelected
                                     ? FontWeight.w700
                                     : FontWeight.normal),
@@ -63,12 +61,14 @@ class NavigationDrawer extends Drawer {
                                 padding: const EdgeInsets.only(
                                   right: Constants.spacing * 0.5,
                                 ),
-                                child: DImage(
-                                  source: isSelected
+                                child: Icon(
+                                  isSelected
                                       ? item.activeIcon
                                       : item.inactiveIcon,
-                                  color: context.color.background,
-                                  size: const Size.square(Constants.spacing),
+                                  color: isSelected
+                                      ? context.color.secondary
+                                      : context.color.background,
+                                  size: Constants.spacing,
                                 )),
                             onTap: () =>
                                 Env.controller.onTap(context, id: item.id),

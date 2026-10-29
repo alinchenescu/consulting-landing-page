@@ -16,7 +16,7 @@ void main() {
         return SeoController(
           tree: WidgetTree(context: context),
           child: MaterialApp.router(
-            title: 'Flutter Landing Page',
+            title: Constants.company,
             routerConfig: Env.routes,
             theme: Constants.lightTheme,
             debugShowCheckedModeBanner: false,

@@ -24,6 +24,7 @@ class ErrorPage extends StatelessWidget {
         body: ListView(
           children: [
             Background(
+              opacity: 0.6,
               child: Container(
                 height: context.height,
                 constraints: const BoxConstraints(minHeight: 550.0),
@@ -103,7 +104,7 @@ class ErrorPage extends StatelessWidget {
                         children: [
                           Builder(builder: (context) {
                             return Semantics(
-                              label: 'Back to Flutter Landing Page',
+                              label: 'Back to ${Constants.company}',
                               link: true,
                               child: Seo.link(
                                 anchor: 'Back to Home',
@@ -121,10 +122,9 @@ class ErrorPage extends StatelessWidget {
                                       Constants.spacing * 0.5),
                                   splashColor:
                                       context.color.primary.withOpacity(0.1),
-                                  prefix: DImage(
-                                    source: 'assets/image/icon_active_home.svg',
-                                    size: const Size.square(
-                                        Constants.spacing * 0.75),
+                                  prefix: Icon(
+                                    Icons.home_rounded,
+                                    size: Constants.spacing * 0.9,
                                     color: context.color.primary,
                                   ),
                                 ),
